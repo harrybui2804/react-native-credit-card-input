@@ -189,14 +189,14 @@ export default class LiteCreditCardInput extends Component {
   }
 
   renderForm() {
-    const { focused, values: { number }, inputStyle, status: { number: numberStatus } } = this.props;
+    const { focused, values: { number }, containerStyle, inputStyle, labelStyle, status: { number: numberStatus } } = this.props;
     const showRightPart = focused && focused !== "number";
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, containerStyle]}>
         <View style={styles.number}>
           <CCInput
             label={'CARD NUMBER'}
-            labelStyle={styles.labelStyle}
+            labelStyle={[styles.labelStyle, labelStyle]}
             {...this._inputProps("number")}
             keyboardType="numeric"
             containerStyle={styles.numberInput}
@@ -206,12 +206,12 @@ export default class LiteCreditCardInput extends Component {
         <View style={styles.secondRow}>
           <CCInput {...this._inputProps("expiry")}
                    label={'EXPIRY'}
-                   labelStyle={styles.labelStyle}
+                   labelStyle={[styles.labelStyle, labelStyle]}
                    keyboardType="numeric"
                    containerStyle={styles.expiryInput} />
           <CCInput {...this._inputProps("cvc")}
                    label={'CVC'}
-                   labelStyle={styles.labelStyle}
+                   labelStyle={[styles.labelStyle, labelStyle]}
                    keyboardType="numeric"
                    containerStyle={styles.cvcInput} />
         </View>
@@ -222,11 +222,7 @@ export default class LiteCreditCardInput extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    //paddingLeft: 10,
-    //paddingRight: 10,
-    //flexDirection: "row",
-    //alignItems: "center",
-    overflow: "hidden",
+    flex: 1,
   },
   icon: {
     width: 48,
@@ -257,7 +253,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    overflow: "hidden",
+    //overflow: "hidden",
     justifyContent: 'space-between',
   },
   numberInput: {

@@ -140,6 +140,14 @@ export default class CreditCardInput extends Component {
   };
 
   render() {
+    const {type} = this.props;
+    if (type === 'form') {
+      return this.renderForm();
+    }
+    return this.renderFade();
+  }
+
+  renderFade() {
     const {
       cardImageFront, cardImageBack, inputContainerStyle,
       values: { number, expiry, cvc, name, type }, focused,
@@ -187,4 +195,68 @@ export default class CreditCardInput extends Component {
       </View>
     );
   }
+
+  renderForm() {
+    const {
+      cardImageFront, cardImageBack, inputContainerStyle,
+      values: { number, expiry, cvc, name, type }, focused,
+      allowScroll, requiresName, requiresCVC, requiresPostalCode,
+      cardScale, cardFontFamily, cardBrandIcons, containerStyle,
+    } = this.props;
+    return (
+      <View style={[containerStyle]}>
+        <View style={s.container}>
+          <CreditCard
+            focused={focused}
+            brand={type}
+            scale={cardScale}
+            fontFamily={cardFontFamily}
+            imageFront={cardImageFront}
+            imageBack={cardImageBack}
+            customIcons={cardBrandIcons}
+            name={requiresName ? name : " "}
+            number={number}
+            expiry={expiry}
+            cvc={cvc} />
+        </View>
+        <ScrollView ref="Form" style={{height: 0}}/>
+        <CCInput {...this._inputProps("number")}
+           keyboardType="numeric"
+           containerStyle={[styles.inputContainer, inputContainerStyle]} />
+        <CCInput {...this._inputProps("expiry")}
+           keyboardType="numeric"
+           containerStyle={[styles.inputContainer, inputContainerStyle]} />
+        { requiresCVC &&
+        <CCInput {...this._inputProps("cvc")}
+           keyboardType="numeric"
+           containerStyle={[styles.inputContainer, inputContainerStyle]} /> }
+        { requiresPostalCode &&
+        <CCInput {...this._inputProps("postalCode")}
+           keyboardType="numeric"
+           containerStyle={[styles.inputContainer, inputContainerStyle]} /> }
+        { requiresName &&
+        <CCInput {...this._inputProps("name")}
+           keyboardType="default"
+           containerStyle={[styles.inputContainer, inputContainerStyle]} /> }
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  cardView: {
+    alignItems: "center",
+  },
+  form: {
+    marginTop: 20,
+  },
+  inputContainer: {
+    marginTop: 20,
+  },
+  inputLabel: {
+    fontWeight: "bold",
+  },
+  input: {
+    height: 40,
+  },
+});
