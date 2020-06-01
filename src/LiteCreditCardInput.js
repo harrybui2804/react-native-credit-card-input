@@ -62,6 +62,7 @@ const s = StyleSheet.create({
   input: {
     height: 40,
     color: "black",
+    minWidth: 50,
   },
 });
 
@@ -208,11 +209,13 @@ export default class LiteCreditCardInput extends Component {
                    label={'EXPIRY'}
                    labelStyle={[styles.labelStyle, labelStyle]}
                    keyboardType="numeric"
+                   inputStyle={[{width: 80, height: 40}, inputStyle]}
                    containerStyle={styles.expiryInput} />
           <CCInput {...this._inputProps("cvc")}
                    label={'CVC'}
                    labelStyle={[styles.labelStyle, labelStyle]}
                    keyboardType="numeric"
+                   inputStyle={[{width: 50, height: 40}, inputStyle]}
                    containerStyle={styles.cvcInput} />
         </View>
       </View>
@@ -271,9 +274,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   expiryInput: {
+    flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
-    //width: 80,
   },
   cvcInput: {
     alignItems: 'center',
