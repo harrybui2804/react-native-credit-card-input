@@ -139,6 +139,14 @@ export default class LiteCreditCardInput extends Component {
   }
 
   render() {
+    const {type} = this.props;
+    if (type && type === 'form') {
+      return this.renderForm();
+    }
+    return this.renderFade();
+  }
+
+  renderFade() {
     const { focused, values: { number }, inputStyle, status: { number: numberStatus } } = this.props;
     const showRightPart = focused && focused !== "number";
 
@@ -179,4 +187,109 @@ export default class LiteCreditCardInput extends Component {
       </View>
     );
   }
+
+  renderForm() {
+    const { focused, values: { number }, inputStyle, status: { number: numberStatus } } = this.props;
+    const showRightPart = focused && focused !== "number";
+    return (
+      <View style={styles.container}>
+        <View style={styles.number}>
+          <CCInput
+            label={'CARD NUMBER'}
+            labelStyle={styles.labelStyle}
+            {...this._inputProps("number")}
+            keyboardType="numeric"
+            containerStyle={styles.numberInput}
+          />
+          <Image style={s.icon} source={Icons[this._iconToShow()]} />
+        </View>
+        <View style={styles.secondRow}>
+          <CCInput {...this._inputProps("expiry")}
+                   label={'EXPIRY'}
+                   labelStyle={styles.labelStyle}
+                   keyboardType="numeric"
+                   containerStyle={styles.expiryInput} />
+          <CCInput {...this._inputProps("cvc")}
+                   label={'CVC'}
+                   labelStyle={styles.labelStyle}
+                   keyboardType="numeric"
+                   containerStyle={styles.cvcInput} />
+        </View>
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    //paddingLeft: 10,
+    //paddingRight: 10,
+    //flexDirection: "row",
+    //alignItems: "center",
+    overflow: "hidden",
+  },
+  icon: {
+    width: 48,
+    height: 40,
+    resizeMode: "contain",
+  },
+  expanded: {
+    flex: 1,
+  },
+  hidden: {
+    width: 0,
+  },
+  leftPart: {
+    overflow: "hidden",
+  },
+  rightPart: {
+    overflow: "hidden",
+    flexDirection: "row",
+  },
+  last4: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  labelStyle: {
+    marginRight: 10,
+  },
+  number: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    overflow: "hidden",
+    justifyContent: 'space-between',
+  },
+  numberInput: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    //width: INFINITE_WIDTH,
+  },
+  secondRow: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
+    //width: INFINITE_WIDTH,
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  expiryInput: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    //width: 80,
+  },
+  cvcInput: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    //width: 80,
+  },
+  last4Input: {
+    width: 60,
+    marginLeft: 20,
+  },
+  input: {
+    height: 40,
+    color: "black",
+  },
+});
